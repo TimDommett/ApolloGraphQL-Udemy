@@ -8,9 +8,19 @@ import { graphql } from 'react-apollo';
 
 class LyricList extends Component {
 
-    onLike(id) {
+    onLike(id, likes) {
         // NB refreshing
-        this.props.mutate({ variables: { id: id } })
+        this.props.mutate({ 
+            variables: { id: id },
+            optimisticResponse: {
+                __typename: 'Mutation',
+                likeLyric: {
+                    id,
+                    __typename: 'LyricType',
+                    likes: likes + 1
+                }
+            }
+        });
             // .then(() => this.props.data.refetch());
     }
 
@@ -24,7 +34,7 @@ class LyricList extends Component {
                         {title}
                     </Link> */}
                     {content}
-                    <i className="material-icons" onClick={() => this.onLike(id)}>thumb_up</i>
+                    <i className="material-icons" onClick={() => this.onLike(id, likes)}>thumb_up</i>
                     {likes}
                 </li>
             );
