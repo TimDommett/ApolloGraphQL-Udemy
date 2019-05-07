@@ -18,11 +18,13 @@ class SongList extends Component {
     renderSongs() {
         // at begining no data as graphql fetchs asynchronously so have to do case where undefined with every component that fetchs data from graphql
 
-        return this.props.data.songs.map(song => {
+        return this.props.data.songs.map(({id, title}) => {
             return (
-                <li key={song.id} className="collection-item">
-                    {song.title}
-                    <i className="material-icons" onClick={() => this.onSongDelete(song.id)}>delete</i>
+                <li key={id} className="collection-item">
+                    <Link to={`/songs/${id}`}>
+                    {title}
+                    </Link>
+                    <i className="material-icons" onClick={() => this.onSongDelete(id)}>delete</i>
                     
                 </li>
             );
